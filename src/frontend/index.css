@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Font faces ─────────────────────────────────────────── */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design tokens ──────────────────────────────────────── */
+@layer base {
+  :root {
+    --radius: 0.5rem;
+
+    /* Navy blue foundation */
+    --background: 0.98 0.004 240;
+    --foreground: 0.16 0.025 248;
+
+    --card: 1 0 0;
+    --card-foreground: 0.16 0.025 248;
+
+    --popover: 1 0 0;
+    --popover-foreground: 0.16 0.025 248;
+
+    /* Deep navy primary */
+    --primary: 0.28 0.08 248;
+    --primary-foreground: 0.98 0 0;
+
+    /* Light steel secondary */
+    --secondary: 0.94 0.012 240;
+    --secondary-foreground: 0.28 0.08 248;
+
+    --muted: 0.94 0.008 240;
+    --muted-foreground: 0.52 0.025 248;
+
+    /* Gold accent */
+    --accent: 0.72 0.14 68;
+    --accent-foreground: 0.14 0.02 248;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.88 0.015 240;
+    --input: 0.88 0.015 240;
+    --ring: 0.45 0.08 248;
+
+    /* Chart colors */
+    --chart-1: 0.5 0.18 248;
+    --chart-2: 0.62 0.14 68;
+    --chart-3: 0.48 0.12 160;
+    --chart-4: 0.7 0.15 85;
+    --chart-5: 0.6 0.2 28;
+
+    /* Sidebar */
+    --sidebar: 0.17 0.045 248;
+    --sidebar-foreground: 0.92 0.01 240;
+    --sidebar-primary: 0.72 0.14 68;
+    --sidebar-primary-foreground: 0.14 0.02 248;
+    --sidebar-accent: 0.26 0.06 248;
+    --sidebar-accent-foreground: 0.92 0.01 240;
+    --sidebar-border: 0.28 0.06 248;
+    --sidebar-ring: 0.45 0.08 248;
+
+    /* Custom brand tokens */
+    --navy: 0.2 0.065 248;
+    --navy-dark: 0.14 0.05 248;
+    --navy-light: 0.32 0.07 248;
+    --gold: 0.72 0.14 68;
+    --gold-light: 0.82 0.1 72;
+    --teal: 0.58 0.12 196;
+    --hero-overlay: 0.16 0.045 248;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+/* ─── Utilities ──────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-navy {
+    background-color: oklch(var(--navy));
+  }
+
+  .bg-navy-dark {
+    background-color: oklch(var(--navy-dark));
+  }
+
+  .bg-gold {
+    background-color: oklch(var(--gold));
+  }
+
+  .text-gold {
+    color: oklch(var(--gold));
+  }
+
+  .text-navy {
+    color: oklch(var(--navy));
+  }
+
+  .border-gold {
+    border-color: oklch(var(--gold));
+  }
+
+  .gradient-navy {
+    background: linear-gradient(135deg, oklch(var(--navy-dark)), oklch(var(--navy-light)));
+  }
+
+  .section-padding {
+    @apply py-20 px-4 sm:px-6 lg:px-8;
+  }
+}
