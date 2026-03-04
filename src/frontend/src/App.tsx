@@ -8,26 +8,32 @@ import { useMutation } from "@tanstack/react-query";
 import {
   AlertCircle,
   ArrowRight,
-  BarChart3,
+  BadgeCheck,
+  Briefcase,
   Building2,
   CheckCircle2,
-  ClipboardCheck,
-  FilePen,
-  FileSearch,
-  FileText,
+  ClipboardList,
+  Globe,
+  HeartHandshake,
   HeartPulse,
+  Home,
+  IndianRupee,
   Loader2,
   Mail,
+  MapPin,
   Menu,
   Phone,
-  RefreshCw,
-  Shield,
+  PhoneCall,
+  ShieldCheck,
+  UserCheck,
+  Users,
   X,
+  Zap,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
-// ── Types ────────────────────────────────────────────────────
+// ── Types ──────────────────────────────────────────────────────
 interface Enquiry {
   name: string;
   email: string;
@@ -35,100 +41,53 @@ interface Enquiry {
   phoneNumber: string;
 }
 
-// ── Fade-up animation variant ────────────────────────────────
+// ── Animation variants ─────────────────────────────────────────
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 30 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.1, ease: "easeOut" as const },
+    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" as const },
   }),
 };
 
-// ── Service data ─────────────────────────────────────────────
-const services = [
-  {
-    id: 1,
-    icon: Shield,
-    title: "GIC Renewal Management",
-    description:
-      "End-to-end management of Group Insurance Cover renewals — ensuring uninterrupted coverage and optimal policy terms for your organisation.",
-    price: "₹75,000.00",
-    priceLabel: "Fixed Fee",
-    color: "from-navy to-navy-light",
-    accentBg: "bg-accent/10",
-    accentText: "text-accent-foreground",
-  },
-  {
-    id: 2,
-    icon: FileText,
-    title: "Old Claims Recovery",
-    description:
-      "Systematic retrieval of long-pending or rejected historical claims through expert follow-up, documentation, and insurer coordination.",
-    price: "15%",
-    priceLabel: "on Settlement Amount",
-    color: "from-teal-brand/90 to-teal-brand",
-    accentBg: "bg-teal-brand/10",
-    accentText: "text-foreground",
-  },
-  {
-    id: 3,
-    icon: ClipboardCheck,
-    title: "Short Claim Approval Recovery",
-    description:
-      "Professional justification and appeal process for short-paid claims, recovering the rightful settlement amount from TPAs and insurers.",
-    price: "10%",
-    priceLabel: "on Settlement Amount",
-    color: "from-gold to-gold-light",
-    accentBg: "bg-gold/10",
-    accentText: "text-foreground",
-  },
-];
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    transition: { duration: 0.5, delay: i * 0.08 },
+  }),
+};
 
-// ── Scope items ──────────────────────────────────────────────
-const scopeItems = [
-  {
-    icon: Building2,
-    text: "Complete coordination with Insurance Companies & TPAs",
-  },
-  {
-    icon: RefreshCw,
-    text: "Follow-up for pending and rejected claims",
-  },
-  {
-    icon: FileSearch,
-    text: "Documentation review and compliance correction",
-  },
-  {
-    icon: FilePen,
-    text: "Justification submission for short claims",
-  },
-  {
-    icon: BarChart3,
-    text: "Regular MIS reporting",
-  },
-];
+// ── Scroll helper ─────────────────────────────────────────────
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+}
 
-// ── Navbar ───────────────────────────────────────────────────
-function Navbar({ onNav }: { onNav: (id: string) => void }) {
+// ─────────────────────────────────────────────────────────────
+// NAVBAR
+// ─────────────────────────────────────────────────────────────
+function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 24);
+    const handler = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
   const navLinks = [
-    { id: "home", label: "Home" },
-    { id: "services", label: "Services" },
-    { id: "scope", label: "Scope" },
-    { id: "contact", label: "Contact" },
+    { id: "home", label: "Home", ocid: "nav.home.link" },
+    { id: "about", label: "About", ocid: "nav.about.link" },
+    { id: "services", label: "Services", ocid: "nav.services.link" },
+    { id: "why-us", label: "Why Us", ocid: "nav.why-us.link" },
+    { id: "process", label: "Process", ocid: "nav.process.link" },
+    { id: "contact", label: "Contact", ocid: "nav.contact.link" },
   ];
 
-  const handleLink = (id: string) => {
-    onNav(id);
+  const handleNav = (id: string) => {
+    scrollTo(id);
     setMenuOpen(false);
   };
 
@@ -136,8 +95,8 @@ function Navbar({ onNav }: { onNav: (id: string) => void }) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-navy-dark/95 backdrop-blur-md shadow-navy"
-          : "bg-navy-dark/80 backdrop-blur-sm"
+          ? "bg-navy-dark/97 backdrop-blur-md shadow-navy"
+          : "bg-navy-dark/85 backdrop-blur-sm"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -145,48 +104,48 @@ function Navbar({ onNav }: { onNav: (id: string) => void }) {
           {/* Logo */}
           <button
             type="button"
-            onClick={() => handleLink("home")}
-            className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
+            onClick={() => handleNav("home")}
+            className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal rounded-lg"
           >
-            <div className="w-9 h-9 rounded-lg bg-gold flex items-center justify-center shadow-gold group-hover:scale-105 transition-transform">
-              <HeartPulse className="w-5 h-5 text-navy-dark" />
+            <div className="w-9 h-9 rounded-xl bg-teal flex items-center justify-center shadow-teal group-hover:scale-105 transition-transform">
+              <HeartPulse className="w-5 h-5 text-white" />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-display font-semibold text-white text-base tracking-wide">
+              <span className="font-display font-semibold text-white text-[0.95rem] tracking-tight">
                 Vantage Healthcare
               </span>
-              <span className="text-gold/80 text-[0.65rem] font-body tracking-widest uppercase">
-                Solution
+              <span className="text-teal-light/80 text-[0.62rem] font-body tracking-widest uppercase">
+                Solutions
               </span>
             </div>
           </button>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5">
             {navLinks.map((link) => (
               <button
                 type="button"
                 key={link.id}
-                data-ocid={`nav.${link.id}.link`}
-                onClick={() => handleLink(link.id)}
-                className="px-4 py-2 text-sm font-body font-medium text-white/80 hover:text-gold transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                data-ocid={link.ocid}
+                onClick={() => handleNav(link.id)}
+                className="px-3.5 py-2 text-sm font-body font-medium text-white/70 hover:text-teal-light transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
               >
                 {link.label}
               </button>
             ))}
             <Button
-              onClick={() => handleLink("contact")}
-              className="ml-4 bg-gold hover:bg-gold-light text-navy-dark font-body font-semibold text-sm shadow-gold transition-all hover:shadow-md"
+              onClick={() => handleNav("contact")}
+              className="ml-3 bg-teal hover:bg-teal-dark text-white font-body font-semibold text-sm shadow-teal transition-all hover:shadow-lg"
               size="sm"
             >
-              Get Started
+              Get a Quote
             </Button>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile hamburger */}
           <button
             type="button"
-            className="md:hidden p-2 text-white/80 hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
+            className="md:hidden p-2 text-white/70 hover:text-teal-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal rounded-lg"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
@@ -198,35 +157,35 @@ function Navbar({ onNav }: { onNav: (id: string) => void }) {
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile dropdown */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.22 }}
               className="md:hidden border-t border-white/10 overflow-hidden"
             >
-              <div className="py-3 flex flex-col gap-1">
+              <div className="py-3 flex flex-col gap-0.5">
                 {navLinks.map((link) => (
                   <button
                     type="button"
                     key={link.id}
-                    data-ocid={`nav.${link.id}.link`}
-                    onClick={() => handleLink(link.id)}
-                    className="w-full text-left px-4 py-3 text-sm font-body font-medium text-white/80 hover:text-gold hover:bg-white/5 transition-colors rounded"
+                    data-ocid={link.ocid}
+                    onClick={() => handleNav(link.id)}
+                    className="w-full text-left px-4 py-3 text-sm font-body font-medium text-white/75 hover:text-teal-light hover:bg-white/5 transition-colors rounded-lg"
                   >
                     {link.label}
                   </button>
                 ))}
                 <div className="px-4 pt-2 pb-3">
                   <Button
-                    onClick={() => handleLink("contact")}
-                    className="w-full bg-gold hover:bg-gold-light text-navy-dark font-body font-semibold"
+                    onClick={() => handleNav("contact")}
+                    className="w-full bg-teal hover:bg-teal-dark text-white font-body font-semibold"
                     size="sm"
                   >
-                    Get Started
+                    Get a Quote
                   </Button>
                 </div>
               </div>
@@ -238,40 +197,53 @@ function Navbar({ onNav }: { onNav: (id: string) => void }) {
   );
 }
 
-// ── Hero ─────────────────────────────────────────────────────
-function HeroSection({ onCta }: { onCta: () => void }) {
+// ─────────────────────────────────────────────────────────────
+// HERO SECTION
+// ─────────────────────────────────────────────────────────────
+function HeroSection() {
   return (
     <section
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden bg-navy-dark"
     >
-      {/* Background image with overlay */}
+      {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "url('/assets/generated/hero-healthcare.dim_1400x700.jpg')",
+            "url('/assets/generated/hero-staffing.dim_1400x700.jpg')",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-navy-dark/50" />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/60 via-transparent to-transparent" />
+      {/* Dark overlay layers */}
+      <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/96 via-navy-dark/82 to-navy-dark/55" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/70 via-transparent to-transparent" />
 
-      {/* Decorative gold line */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-48 bg-gradient-to-b from-transparent via-gold to-transparent" />
+      {/* Decorative teal accent line */}
+      <div className="absolute left-0 top-1/3 -translate-y-1/2 w-1.5 h-56 bg-gradient-to-b from-transparent via-teal to-transparent rounded-full" />
+
+      {/* Subtle dot grid */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, oklch(0.98 0 0) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 pt-40">
         <div className="max-w-3xl">
-          {/* Tag */}
+          {/* Tag pill */}
           <motion.div
             custom={0}
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold/40 bg-gold/10 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-teal/40 bg-teal/10 mb-8"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-            <span className="text-gold text-xs font-body font-medium tracking-wider uppercase">
-              Healthcare Claims Management Experts
+            <span className="w-1.5 h-1.5 rounded-full bg-teal animate-pulse-glow" />
+            <span className="text-teal-light text-xs font-body font-medium tracking-wider uppercase">
+              Your Trusted Partner in Healthcare Workforce Management
             </span>
           </motion.div>
 
@@ -281,27 +253,27 @@ function HeroSection({ onCta }: { onCta: () => void }) {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="font-display text-4xl sm:text-5xl lg:text-6xl font-semibold text-white leading-tight tracking-tight mb-6"
+            className="font-display text-4xl sm:text-5xl lg:text-[3.5rem] font-semibold text-white leading-[1.12] tracking-tight mb-6"
           >
-            Maximise Your <span className="text-gold italic">Healthcare</span>
-            <br />
-            Claims Recovery
+            Delivering Trusted{" "}
+            <span className="text-teal-light italic">Healthcare Staffing</span>
+            <br />& Workforce Solutions
           </motion.h1>
 
-          {/* Subhead */}
+          {/* Subtext */}
           <motion.p
             custom={2}
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="font-body text-lg text-white/70 leading-relaxed mb-10 max-w-xl"
+            className="font-body text-lg text-white/65 leading-relaxed mb-10 max-w-2xl"
           >
-            Vantage Healthcare Solution provides expert coordination with
-            insurance companies and TPAs — recovering your rightful settlements,
-            managing renewals, and ensuring complete claim compliance.
+            We provide reliable, qualified, and professional healthcare staff to
+            hospitals, clinics, diagnostic centers, and healthcare institutions
+            across India.
           </motion.p>
 
-          {/* CTA */}
+          {/* CTAs */}
           <motion.div
             custom={3}
             initial="hidden"
@@ -311,24 +283,21 @@ function HeroSection({ onCta }: { onCta: () => void }) {
           >
             <Button
               data-ocid="hero.primary_button"
-              onClick={onCta}
+              onClick={() => scrollTo("contact")}
               size="lg"
-              className="bg-gold hover:bg-gold-light text-navy-dark font-body font-bold text-base shadow-gold hover:shadow-lg transition-all hover:scale-[1.02] group"
+              className="bg-teal hover:bg-teal-dark text-white font-body font-bold text-base shadow-teal hover:shadow-lg transition-all hover:scale-[1.02] group"
             >
-              Get in Touch
+              Get a Quote
               <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button
-              onClick={() =>
-                document
-                  .getElementById("services")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
+              data-ocid="hero.secondary_button"
+              onClick={() => scrollTo("services")}
               variant="outline"
               size="lg"
-              className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-body font-medium text-base bg-transparent"
+              className="border-white/30 text-white hover:bg-white/10 hover:border-teal/50 font-body font-medium text-base bg-transparent"
             >
-              View Services
+              Our Services
             </Button>
           </motion.div>
 
@@ -338,20 +307,21 @@ function HeroSection({ onCta }: { onCta: () => void }) {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
-            className="mt-16 grid grid-cols-3 gap-6 max-w-xl"
+            className="mt-16 flex flex-wrap gap-8"
           >
             {[
-              { value: "100%", label: "Claim Follow-up" },
-              { value: "15%", label: "Max Recovery Fee" },
-              { value: "MIS", label: "Regular Reporting" },
+              { value: "500+", label: "Healthcare Staff Placed" },
+              { value: "50+", label: "Partner Hospitals" },
+              { value: "24/7", label: "Support Available" },
+              { value: "100%", label: "Background Verified" },
             ].map((stat) => (
-              <div key={stat.label} className="text-center sm:text-left">
-                <div className="font-display text-2xl font-semibold text-gold">
+              <div key={stat.label} className="flex flex-col">
+                <span className="font-display text-2xl font-semibold text-teal-light">
                   {stat.value}
-                </div>
-                <div className="font-body text-xs text-white/50 mt-0.5 uppercase tracking-wide">
+                </span>
+                <span className="font-body text-xs text-white/45 mt-0.5 uppercase tracking-wide">
                   {stat.label}
-                </div>
+                </span>
               </div>
             ))}
           </motion.div>
@@ -361,11 +331,181 @@ function HeroSection({ onCta }: { onCta: () => void }) {
   );
 }
 
-// ── Services ─────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// ABOUT SECTION
+// ─────────────────────────────────────────────────────────────
+function AboutSection() {
+  return (
+    <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 bg-background">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left: text */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={fadeUp}
+          >
+            <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-teal bg-teal/10 rounded-full mb-5 border border-teal/20">
+              About Us
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-6 leading-tight">
+              About Vantage{" "}
+              <span className="text-teal italic">Healthcare Solutions</span>
+            </h2>
+            <p className="font-body text-muted-foreground text-base leading-relaxed mb-4">
+              Vantage Healthcare Solutions is a professional healthcare staffing
+              and workforce management company dedicated to supporting hospitals
+              and medical institutions with skilled and trained healthcare
+              professionals.
+            </p>
+            <p className="font-body text-muted-foreground text-base leading-relaxed">
+              We understand the importance of quality patient care. Our mission
+              is to bridge the gap between healthcare institutions and qualified
+              professionals by providing dependable, efficient, and
+              cost-effective staffing solutions.
+            </p>
+
+            <div className="mt-8">
+              <Button
+                onClick={() => scrollTo("contact")}
+                className="bg-navy hover:bg-navy-light text-white font-body font-semibold shadow-navy transition-all group"
+              >
+                Partner With Us
+                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </div>
+          </motion.div>
+
+          {/* Right: Vision & Mission cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeUp}
+              custom={0}
+              className="bg-navy-dark rounded-2xl p-7 flex flex-col gap-4 shadow-navy"
+            >
+              <div className="w-12 h-12 rounded-xl bg-teal/15 border border-teal/25 flex items-center justify-center">
+                <HeartPulse className="w-6 h-6 text-teal-light" />
+              </div>
+              <h3 className="font-display text-xl font-semibold text-white">
+                Our Vision
+              </h3>
+              <p className="font-body text-white/65 text-sm leading-relaxed">
+                To become a leading healthcare staffing partner known for
+                reliability, quality service, and long-term client
+                relationships.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeUp}
+              custom={1}
+              className="bg-teal rounded-2xl p-7 flex flex-col gap-4 shadow-teal"
+            >
+              <div className="w-12 h-12 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center">
+                <HeartHandshake className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="font-display text-xl font-semibold text-white">
+                Our Mission
+              </h3>
+              <p className="font-body text-white/80 text-sm leading-relaxed">
+                To deliver competent healthcare professionals while maintaining
+                the highest standards of ethics, compliance, and patient care.
+              </p>
+            </motion.div>
+
+            {/* Wide stat card spanning both columns */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeUp}
+              custom={2}
+              className="sm:col-span-2 bg-secondary/80 border border-border rounded-2xl p-6 flex items-center gap-5"
+            >
+              <div className="w-12 h-12 rounded-xl bg-teal/10 border border-teal/20 flex items-center justify-center flex-shrink-0">
+                <BadgeCheck className="w-6 h-6 text-teal" />
+              </div>
+              <div>
+                <p className="font-display text-base font-semibold text-foreground">
+                  Pune, Maharashtra Based
+                </p>
+                <p className="font-body text-sm text-muted-foreground mt-0.5">
+                  Serving healthcare institutions across India with trained,
+                  verified professionals.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// SERVICES SECTION
+// ─────────────────────────────────────────────────────────────
+const servicesData = [
+  {
+    id: 1,
+    icon: UserCheck,
+    title: "Healthcare Staffing Solutions",
+    description:
+      "We source, screen, and deploy qualified nursing and allied health staff tailored to your institution's requirements.",
+    items: [
+      "Nurses (GNM, BSc Nursing)",
+      "ICU / OT Staff",
+      "Ward Boys & Support Staff",
+      "Lab Technicians",
+      "Pharmacists",
+      "Radiology Technicians",
+      "Home Healthcare Staff",
+    ],
+    accent: "teal",
+  },
+  {
+    id: 2,
+    icon: Building2,
+    title: "Hospital Workforce Management",
+    description:
+      "Flexible engagement models to match your hospital's evolving workforce needs — from temporary cover to permanent placements.",
+    items: [
+      "Contract Staffing",
+      "Temporary & Permanent Placement",
+      "Bulk Hiring Support",
+      "Emergency Staffing Solutions",
+    ],
+    accent: "navy",
+  },
+  {
+    id: 3,
+    icon: Home,
+    title: "Home Healthcare Services",
+    description:
+      "Professional caregivers and nurses who bring compassionate, clinical-grade care directly to patients at home.",
+    items: ["Home Nurses", "Caretakers", "Elderly Care", "Post-Surgery Care"],
+    accent: "gold",
+  },
+];
+
 function ServicesSection() {
   return (
-    <section id="services" className="py-24 px-4 sm:px-6 lg:px-8 bg-background">
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="services"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-navy-dark relative overflow-hidden"
+    >
+      {/* Background decorations */}
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-teal/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-navy-light/10 blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative">
         {/* Header */}
         <motion.div
           initial="hidden"
@@ -374,22 +514,26 @@ function ServicesSection() {
           variants={fadeUp}
           className="text-center mb-16"
         >
-          <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-gold bg-gold/10 rounded-full mb-4">
+          <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-teal-light bg-teal/10 rounded-full mb-4 border border-teal/20">
             Our Services
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-4">
-            Comprehensive Claims Solutions
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4">
+            Complete Healthcare{" "}
+            <span className="text-teal-light italic">Staffing Solutions</span>
           </h2>
-          <p className="font-body text-muted-foreground max-w-xl mx-auto text-base">
-            Transparent, performance-aligned pricing. We succeed only when you
-            recover what's rightfully yours.
+          <p className="font-body text-white/60 max-w-xl mx-auto text-base">
+            From ICU specialists to home caregivers — we deliver the right
+            professionals at the right time.
           </p>
         </motion.div>
 
-        {/* Cards */}
+        {/* Service cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {services.map((service, i) => {
+          {servicesData.map((service, i) => {
             const Icon = service.icon;
+            const isTeal = service.accent === "teal";
+            const isNavy = service.accent === "navy";
+
             return (
               <motion.div
                 key={service.id}
@@ -399,49 +543,160 @@ function ServicesSection() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-60px" }}
                 variants={fadeUp}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                className="bg-card rounded-2xl shadow-card hover:shadow-card-hover transition-shadow duration-300 overflow-hidden flex flex-col border border-border/60"
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                className={`rounded-2xl p-7 flex flex-col gap-5 border transition-shadow duration-300 ${
+                  isTeal
+                    ? "bg-teal/12 border-teal/25 hover:border-teal/50 hover:shadow-teal"
+                    : isNavy
+                      ? "bg-white/5 border-white/10 hover:border-white/20 hover:shadow-navy"
+                      : "bg-gold/8 border-gold/20 hover:border-gold/40"
+                }`}
               >
-                {/* Top accent strip */}
+                {/* Icon */}
                 <div
-                  className={`h-1.5 w-full bg-gradient-to-r ${service.color}`}
-                />
+                  className={`w-13 h-13 w-[3.25rem] h-[3.25rem] rounded-xl flex items-center justify-center ${
+                    isTeal
+                      ? "bg-teal/20 border border-teal/30"
+                      : isNavy
+                        ? "bg-white/10 border border-white/15"
+                        : "bg-gold/15 border border-gold/25"
+                  }`}
+                >
+                  <Icon
+                    className={`w-6 h-6 ${isTeal ? "text-teal-light" : isNavy ? "text-white/80" : "text-gold"}`}
+                  />
+                </div>
 
-                <div className="p-7 flex flex-col flex-1">
-                  {/* Icon */}
-                  <div
-                    className={`w-12 h-12 rounded-xl ${service.accentBg} flex items-center justify-center mb-5`}
-                  >
-                    <Icon className="w-6 h-6 text-navy" />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="font-display text-xl font-semibold text-foreground mb-3">
+                {/* Title */}
+                <div>
+                  <h3 className="font-display text-xl font-semibold text-white mb-2">
                     {service.title}
                   </h3>
-
-                  {/* Description */}
-                  <p className="font-body text-sm text-muted-foreground leading-relaxed flex-1 mb-6">
+                  <p className="font-body text-sm text-white/55 leading-relaxed">
                     {service.description}
                   </p>
+                </div>
 
-                  {/* Pricing badge */}
-                  <div className="pt-4 border-t border-border/60 flex items-end justify-between">
-                    <div>
-                      <div className="font-display text-2xl font-semibold text-foreground">
-                        {service.price}
-                      </div>
-                      <div className="font-body text-xs text-muted-foreground mt-0.5">
-                        {service.priceLabel}
-                      </div>
-                    </div>
-                    <Badge
-                      variant="secondary"
-                      className="bg-gold/10 text-navy font-body font-semibold text-xs border border-gold/20"
-                    >
-                      Active
-                    </Badge>
-                  </div>
+                {/* Item list */}
+                <ul className="flex flex-col gap-2 mt-auto">
+                  {service.items.map((item) => (
+                    <li key={item} className="flex items-center gap-2.5">
+                      <CheckCircle2
+                        className={`w-4 h-4 flex-shrink-0 ${
+                          isTeal
+                            ? "text-teal-light"
+                            : isNavy
+                              ? "text-white/50"
+                              : "text-gold"
+                        }`}
+                      />
+                      <span className="font-body text-sm text-white/70">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// WHY CHOOSE US SECTION
+// ─────────────────────────────────────────────────────────────
+const whyUsItems = [
+  {
+    id: 1,
+    icon: ShieldCheck,
+    title: "Verified & Qualified Professionals",
+    desc: "Every staff member is credential-checked and registered with their respective boards.",
+  },
+  {
+    id: 2,
+    icon: Zap,
+    title: "Quick Deployment",
+    desc: "Rapid response to urgent staffing needs — available within 24–48 hours.",
+  },
+  {
+    id: 3,
+    icon: IndianRupee,
+    title: "Affordable & Transparent Pricing",
+    desc: "No hidden charges. Competitive rates with full pricing clarity upfront.",
+  },
+  {
+    id: 4,
+    icon: PhoneCall,
+    title: "24/7 Support",
+    desc: "Our operations team is available around the clock for any staffing emergencies.",
+  },
+  {
+    id: 5,
+    icon: ClipboardList,
+    title: "Strict Background Verification",
+    desc: "Thorough police verification, reference checks, and document authentication.",
+  },
+  {
+    id: 6,
+    icon: Users,
+    title: "Client-Focused Approach",
+    desc: "Dedicated account managers ensure your requirements are always met on time.",
+  },
+];
+
+function WhyUsSection() {
+  return (
+    <section id="why-us" className="py-24 px-4 sm:px-6 lg:px-8 bg-background">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="text-center mb-16"
+        >
+          <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-teal bg-teal/10 rounded-full mb-4 border border-teal/20">
+            Why Choose Us
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-4">
+            Why Choose <span className="text-teal italic">Vantage?</span>
+          </h2>
+          <p className="font-body text-muted-foreground max-w-xl mx-auto text-base">
+            At Vantage Healthcare Solutions, we focus on reliability,
+            professionalism, and long-term partnerships.
+          </p>
+        </motion.div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {whyUsItems.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.id}
+                data-ocid={`why-us.item.${item.id}`}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={fadeUp}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="bg-card border border-border/60 rounded-2xl p-6 flex flex-col gap-4 shadow-card hover:shadow-card-hover transition-shadow duration-300 group"
+              >
+                <div className="w-12 h-12 rounded-xl bg-teal/10 border border-teal/20 flex items-center justify-center group-hover:bg-teal/15 transition-colors">
+                  <Icon className="w-6 h-6 text-teal" />
+                </div>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-foreground mb-1.5">
+                    {item.title}
+                  </h3>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               </motion.div>
             );
@@ -452,92 +707,181 @@ function ServicesSection() {
   );
 }
 
-// ── Scope of Services ─────────────────────────────────────────
-function ScopeSection() {
+// ─────────────────────────────────────────────────────────────
+// INDUSTRIES WE SERVE SECTION
+// ─────────────────────────────────────────────────────────────
+const industries = [
+  { id: 1, label: "Multi-Specialty Hospitals", icon: Building2 },
+  { id: 2, label: "Nursing Homes", icon: HeartPulse },
+  { id: 3, label: "Clinics", icon: Briefcase },
+  { id: 4, label: "Diagnostic Centers", icon: ClipboardList },
+  { id: 5, label: "Rehabilitation Centers", icon: UserCheck },
+  { id: 6, label: "Home Healthcare Clients", icon: Home },
+];
+
+function IndustriesSection() {
   return (
-    <section
-      id="scope"
-      data-ocid="scope.section"
-      className="py-24 px-4 sm:px-6 lg:px-8 bg-navy-dark relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-gold/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-teal-brand/5 blur-3xl pointer-events-none" />
-
+    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-secondary/40">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left: text */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={fadeUp}
-          >
-            <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-gold bg-gold/10 rounded-full mb-5 border border-gold/20">
-              What We Deliver
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-6 leading-tight">
-              Scope of <span className="text-gold italic">Services</span>
-            </h2>
-            <p className="font-body text-white/60 text-base leading-relaxed mb-8">
-              Every engagement includes end-to-end operational support — from
-              initial documentation to final settlement — so your team can focus
-              on patient care while we handle the complexities of claims
-              management.
-            </p>
+        {/* Header */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="text-center mb-14"
+        >
+          <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-teal bg-teal/10 rounded-full mb-4 border border-teal/20">
+            Industries We Serve
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-4">
+            Trusted Across <span className="text-teal italic">Healthcare</span>
+          </h2>
+          <p className="font-body text-muted-foreground max-w-lg mx-auto text-base">
+            Our staffing solutions serve the full spectrum of healthcare
+            delivery.
+          </p>
+        </motion.div>
 
-            {/* Trust indicators */}
-            <div className="flex flex-wrap gap-3">
-              {[
-                "TPA Coordination",
-                "Legal Compliance",
-                "Insurer Liaison",
-                "MIS Reports",
-              ].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-body text-white/60"
-                >
-                  {tag}
+        {/* Tile grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {industries.map((ind, i) => {
+            const Icon = ind.icon;
+            return (
+              <motion.div
+                key={ind.id}
+                data-ocid={`industries.item.${ind.id}`}
+                custom={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
+                variants={fadeIn}
+                whileHover={{ scale: 1.04, transition: { duration: 0.18 } }}
+                className="bg-card border border-border/60 rounded-2xl p-5 flex flex-col items-center gap-3 text-center shadow-card hover:shadow-card-hover hover:border-teal/30 transition-all duration-200 cursor-default group"
+              >
+                <div className="w-11 h-11 rounded-xl bg-teal/10 border border-teal/15 flex items-center justify-center group-hover:bg-teal/18 transition-colors">
+                  <Icon className="w-5 h-5 text-teal" />
+                </div>
+                <span className="font-body text-xs font-semibold text-foreground/80 leading-snug">
+                  {ind.label}
                 </span>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right: scope list */}
-          <div className="flex flex-col gap-4">
-            {scopeItems.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <motion.div
-                  key={item.text}
-                  custom={i}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-40px" }}
-                  variants={fadeUp}
-                  className="flex items-start gap-4 p-5 bg-white/5 border border-white/8 rounded-xl hover:bg-white/8 hover:border-gold/20 transition-all duration-200 group"
-                >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center group-hover:bg-gold/20 transition-colors">
-                    <Icon className="w-5 h-5 text-gold" />
-                  </div>
-                  <div className="flex items-center flex-1 min-h-[40px]">
-                    <p className="font-body text-sm text-white/75 leading-snug group-hover:text-white/90 transition-colors">
-                      {item.text}
-                    </p>
-                  </div>
-                  <CheckCircle2 className="flex-shrink-0 w-4 h-4 text-gold/40 group-hover:text-gold/70 transition-colors mt-0.5" />
-                </motion.div>
-              );
-            })}
-          </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-// ── Contact / Enquiry Form ────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// OUR PROCESS SECTION
+// ─────────────────────────────────────────────────────────────
+const processSteps = [
+  {
+    id: 1,
+    title: "Requirement Understanding",
+    desc: "We begin by thoroughly understanding your staffing requirements, timelines, and institutional standards.",
+  },
+  {
+    id: 2,
+    title: "Candidate Screening & Verification",
+    desc: "Our team screens candidates against your criteria — verifying credentials, experience, and conduct records.",
+  },
+  {
+    id: 3,
+    title: "Interview & Selection",
+    desc: "Shortlisted candidates go through a structured interview process, ensuring only the best reach you.",
+  },
+  {
+    id: 4,
+    title: "Quick Deployment",
+    desc: "Approved professionals are deployed within agreed timelines with all documentation in order.",
+  },
+  {
+    id: 5,
+    title: "Ongoing Support & Monitoring",
+    desc: "Post-placement, we provide continuous performance monitoring and replacement support as needed.",
+  },
+];
+
+function ProcessSection() {
+  return (
+    <section
+      id="process"
+      className="py-24 px-4 sm:px-6 lg:px-8 bg-navy-dark relative overflow-hidden"
+    >
+      {/* Background decoration */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-teal/4 blur-3xl pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto relative">
+        {/* Header */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={fadeUp}
+          className="text-center mb-16"
+        >
+          <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-teal-light bg-teal/10 rounded-full mb-4 border border-teal/20">
+            Our Process
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4">
+            How We <span className="text-teal-light italic">Work</span>
+          </h2>
+          <p className="font-body text-white/55 max-w-lg mx-auto text-base">
+            A streamlined 5-step process ensuring reliable, fast, and quality
+            staff delivery.
+          </p>
+        </motion.div>
+
+        {/* Steps */}
+        <div className="relative flex flex-col gap-0">
+          {processSteps.map((step, i) => (
+            <motion.div
+              key={step.id}
+              data-ocid={`process.item.${step.id}`}
+              custom={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={fadeUp}
+              className="flex gap-6 group"
+            >
+              {/* Left: number + connector */}
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-12 rounded-full bg-teal/15 border-2 border-teal/40 flex items-center justify-center flex-shrink-0 group-hover:bg-teal/25 group-hover:border-teal/60 transition-all">
+                  <span className="font-display text-lg font-semibold text-teal-light">
+                    {step.id}
+                  </span>
+                </div>
+                {i < processSteps.length - 1 && (
+                  <div className="w-0.5 flex-1 min-h-[3rem] bg-gradient-to-b from-teal/30 to-teal/10 mt-2 mb-2" />
+                )}
+              </div>
+
+              {/* Right: content */}
+              <div
+                className={`pb-10 ${i === processSteps.length - 1 ? "pb-0" : ""}`}
+              >
+                <h3 className="font-display text-xl font-semibold text-white mb-2 group-hover:text-teal-light transition-colors">
+                  {step.title}
+                </h3>
+                <p className="font-body text-sm text-white/55 leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// CONTACT SECTION
+// ─────────────────────────────────────────────────────────────
 function ContactSection() {
   const { actor } = useActor();
   const [form, setForm] = useState({
@@ -594,62 +938,79 @@ function ContactSection() {
     }
   };
 
+  const contactDetails = [
+    {
+      icon: MapPin,
+      label: "Address",
+      value: "Pune, Maharashtra",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: "+91-9881783462",
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: "vantagehealth2022@gmail.com",
+    },
+    {
+      icon: Globe,
+      label: "Website",
+      value: "www.vantagehealthcare.in",
+    },
+  ];
+
   return (
     <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 bg-background">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left: info */}
+          {/* Left: contact info */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
             variants={fadeUp}
           >
-            <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-gold bg-gold/10 rounded-full mb-5 border border-gold/20">
-              Enquire Now
+            <span className="inline-block px-3 py-1 text-xs font-body font-semibold uppercase tracking-widest text-teal bg-teal/10 rounded-full mb-5 border border-teal/20">
+              Contact Us
             </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-6 leading-tight">
-              Ready to Recover{" "}
-              <span className="text-gold italic">What's Yours?</span>
+              Let's Work <span className="text-teal italic">Together</span>
             </h2>
             <p className="font-body text-muted-foreground text-base leading-relaxed mb-10">
-              Reach out to our team and we'll assess your claims situation at no
-              obligation. Our experts work across all major Indian insurance
-              companies and TPAs.
+              Reach out to our team with your staffing requirements. We'll
+              respond within 24 business hours with a tailored workforce
+              solution.
             </p>
 
-            {/* Contact details */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-secondary/60 rounded-xl border border-border/60">
-                <div className="w-10 h-10 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-5 h-5 text-gold" />
-                </div>
-                <div>
-                  <p className="font-body text-xs text-muted-foreground uppercase tracking-wide">
-                    Phone
-                  </p>
-                  <p className="font-body text-sm font-medium text-foreground">
-                    +91 98765 43210
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-secondary/60 rounded-xl border border-border/60">
-                <div className="w-10 h-10 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-5 h-5 text-gold" />
-                </div>
-                <div>
-                  <p className="font-body text-xs text-muted-foreground uppercase tracking-wide">
-                    Email
-                  </p>
-                  <p className="font-body text-sm font-medium text-foreground">
-                    info@vantagehealthcare.in
-                  </p>
-                </div>
-              </div>
+            {/* Contact detail cards */}
+            <div className="flex flex-col gap-3">
+              {contactDetails.map((detail) => {
+                const Icon = detail.icon;
+                return (
+                  <div
+                    key={detail.label}
+                    className="flex items-center gap-4 p-4 bg-secondary/70 rounded-xl border border-border/60 hover:border-teal/30 transition-colors"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-teal/10 border border-teal/20 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5 text-teal" />
+                    </div>
+                    <div>
+                      <p className="font-body text-xs text-muted-foreground uppercase tracking-wide">
+                        {detail.label}
+                      </p>
+                      <p className="font-body text-sm font-medium text-foreground mt-0.5">
+                        {detail.value}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
 
-          {/* Right: form */}
+          {/* Right: enquiry form */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -658,7 +1019,8 @@ function ContactSection() {
             custom={1}
           >
             <div className="bg-card rounded-2xl shadow-card border border-border/60 overflow-hidden">
-              <div className="h-1.5 w-full bg-gradient-to-r from-navy via-teal-brand to-gold" />
+              {/* Teal top accent */}
+              <div className="h-1.5 w-full bg-gradient-to-r from-teal-dark via-teal to-teal-light" />
 
               <div className="p-8">
                 <AnimatePresence mode="wait">
@@ -666,21 +1028,22 @@ function ContactSection() {
                     <motion.div
                       key="success"
                       data-ocid="contact.success_state"
-                      initial={{ opacity: 0, scale: 0.96 }}
+                      initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.96 }}
-                      transition={{ duration: 0.35 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3 }}
                       className="py-12 text-center"
                     >
-                      <div className="w-16 h-16 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center mx-auto mb-5">
-                        <CheckCircle2 className="w-8 h-8 text-green-600" />
+                      <div className="w-16 h-16 rounded-full bg-teal/10 border-2 border-teal/30 flex items-center justify-center mx-auto mb-5">
+                        <CheckCircle2 className="w-8 h-8 text-teal" />
                       </div>
                       <h3 className="font-display text-2xl font-semibold text-foreground mb-3">
                         Enquiry Received!
                       </h3>
                       <p className="font-body text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto mb-6">
                         Thank you for reaching out. Our team will review your
-                        case and get back to you within 24 business hours.
+                        requirement and get back to you within 24 business
+                        hours.
                       </p>
                       <Button
                         variant="outline"
@@ -756,7 +1119,7 @@ function ContactSection() {
                           id="phoneNumber"
                           name="phoneNumber"
                           data-ocid="contact.phone.input"
-                          placeholder="+91 98765 43210"
+                          placeholder="+91 98817 83462"
                           value={form.phoneNumber}
                           onChange={handleChange}
                           autoComplete="tel"
@@ -783,7 +1146,7 @@ function ContactSection() {
                           id="email"
                           name="email"
                           data-ocid="contact.email.input"
-                          placeholder="rajesh@company.com"
+                          placeholder="rajesh@hospital.com"
                           value={form.email}
                           onChange={handleChange}
                           autoComplete="email"
@@ -810,7 +1173,7 @@ function ContactSection() {
                           id="message"
                           name="message"
                           data-ocid="contact.message.textarea"
-                          placeholder="Briefly describe your claim situation or service requirement..."
+                          placeholder="Describe your staffing requirement — number of staff, type, location, duration..."
                           value={form.message}
                           onChange={handleChange}
                           rows={4}
@@ -844,7 +1207,7 @@ function ContactSection() {
                         data-ocid="contact.submit_button"
                         type="submit"
                         disabled={mutation.isPending}
-                        className="w-full h-11 bg-navy hover:bg-navy-light text-white font-body font-semibold text-sm shadow-navy transition-all hover:scale-[1.01]"
+                        className="w-full h-11 bg-teal hover:bg-teal-dark text-white font-body font-semibold text-sm shadow-teal transition-all hover:scale-[1.01]"
                       >
                         {mutation.isPending ? (
                           <>
@@ -873,65 +1236,122 @@ function ContactSection() {
   );
 }
 
-// ── Footer ───────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// FOOTER
+// ─────────────────────────────────────────────────────────────
 function Footer() {
   const year = new Date().getFullYear();
+
+  const footerLinks = [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "services", label: "Services" },
+    { id: "why-us", label: "Why Us" },
+    { id: "process", label: "Process" },
+    { id: "contact", label: "Contact" },
+  ];
+
   return (
-    <footer className="bg-navy-dark border-t border-white/8 py-12 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-navy-dark border-t border-white/8 pt-14 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gold flex items-center justify-center shadow-gold">
-              <HeartPulse className="w-5 h-5 text-navy-dark" />
-            </div>
-            <div>
-              <div className="font-display font-semibold text-white text-base">
-                Vantage Healthcare Solution
+          <div className="md:col-span-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 rounded-xl bg-teal flex items-center justify-center shadow-teal">
+                <HeartPulse className="w-5 h-5 text-white" />
               </div>
-              <div className="font-body text-white/50 text-xs mt-0.5">
-                Expert Claims & Insurance Management
+              <div>
+                <div className="font-display font-semibold text-white text-base">
+                  Vantage Healthcare Solutions
+                </div>
+                <div className="font-body text-white/45 text-xs mt-0.5">
+                  Complete Healthcare Staffing & Management Services
+                </div>
               </div>
             </div>
+            <p className="font-body text-sm text-white/45 leading-relaxed">
+              Serving healthcare institutions across India with reliable,
+              verified, and professionally trained workforce solutions.
+            </p>
           </div>
 
           {/* Quick links */}
-          <nav className="flex flex-wrap gap-x-6 gap-y-2">
-            {[
-              { id: "home", label: "Home" },
-              { id: "services", label: "Services" },
-              { id: "scope", label: "Scope" },
-              { id: "contact", label: "Contact" },
-            ].map((link) => (
-              <button
-                type="button"
-                key={link.id}
-                onClick={() =>
-                  document
-                    .getElementById(link.id)
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-                className="font-body text-sm text-white/50 hover:text-gold transition-colors"
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav>
+          <div>
+            <h4 className="font-display font-semibold text-white/80 text-sm mb-5 uppercase tracking-widest">
+              Quick Links
+            </h4>
+            <nav className="flex flex-col gap-2.5">
+              {footerLinks.map((link) => (
+                <button
+                  type="button"
+                  key={link.id}
+                  onClick={() => scrollTo(link.id)}
+                  className="text-left font-body text-sm text-white/45 hover:text-teal-light transition-colors"
+                >
+                  {link.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Contact info */}
+          <div>
+            <h4 className="font-display font-semibold text-white/80 text-sm mb-5 uppercase tracking-widest">
+              Get in Touch
+            </h4>
+            <div className="flex flex-col gap-3">
+              {[
+                { icon: MapPin, text: "Pune, Maharashtra" },
+                { icon: Phone, text: "+91-9881783462" },
+                { icon: Mail, text: "vantagehealth2022@gmail.com" },
+                { icon: Globe, text: "www.vantagehealthcare.in" },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.text} className="flex items-center gap-2.5">
+                    <Icon className="w-4 h-4 text-teal/70 flex-shrink-0" />
+                    <span className="font-body text-xs text-white/45">
+                      {item.text}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-body text-xs text-white/35">
-            © {year} Vantage Healthcare Solution. All rights reserved.
-          </p>
-          <p className="font-body text-xs text-white/35">
-            Built with <span className="text-gold/60">♥</span> using{" "}
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <p className="font-body text-xs text-white/35">
+              Vantage Healthcare Solutions © {year}. All Rights Reserved.
+            </p>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                className="font-body text-xs text-white/30 hover:text-teal-light/60 transition-colors"
+              >
+                Privacy Policy
+              </button>
+              <span className="text-white/20">|</span>
+              <button
+                type="button"
+                className="font-body text-xs text-white/30 hover:text-teal-light/60 transition-colors"
+              >
+                Terms & Conditions
+              </button>
+            </div>
+          </div>
+          <p className="font-body text-xs text-white/30">
+            Built with <span className="text-teal/50">♥</span> using{" "}
             <a
               href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(
                 typeof window !== "undefined" ? window.location.hostname : "",
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/40 hover:text-gold/60 transition-colors"
+              className="text-white/30 hover:text-teal-light/60 transition-colors"
             >
               caffeine.ai
             </a>
@@ -942,19 +1362,20 @@ function Footer() {
   );
 }
 
-// ── App root ─────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// APP ROOT
+// ─────────────────────────────────────────────────────────────
 export default function App() {
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <div className="min-h-screen font-body bg-background">
-      <Navbar onNav={scrollTo} />
+      <Navbar />
       <main>
-        <HeroSection onCta={() => scrollTo("contact")} />
+        <HeroSection />
+        <AboutSection />
         <ServicesSection />
-        <ScopeSection />
+        <WhyUsSection />
+        <IndustriesSection />
+        <ProcessSection />
         <ContactSection />
       </main>
       <Footer />

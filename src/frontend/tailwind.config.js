@@ -75,25 +75,32 @@ export default {
           dark: "oklch(var(--navy-dark))",
           light: "oklch(var(--navy-light))",
         },
+        teal: {
+          DEFAULT: "oklch(var(--teal))",
+          light: "oklch(var(--teal-light))",
+          dark: "oklch(var(--teal-dark))",
+        },
         gold: {
           DEFAULT: "oklch(var(--gold))",
           light: "oklch(var(--gold-light))",
         },
-        teal: {
-          brand: "oklch(var(--teal))",
-        },
+        success: "oklch(var(--success))",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgba(0,0,0,0.05)",
-        card: "0 4px 24px -4px oklch(0.2 0.065 248 / 0.12), 0 1px 4px oklch(0.2 0.065 248 / 0.06)",
-        "card-hover": "0 12px 40px -8px oklch(0.2 0.065 248 / 0.2), 0 4px 12px oklch(0.2 0.065 248 / 0.1)",
-        navy: "0 8px 32px oklch(0.14 0.05 248 / 0.3)",
-        gold: "0 4px 16px oklch(0.72 0.14 68 / 0.3)",
+        card: "0 4px 24px -4px oklch(0.22 0.07 242 / 0.10), 0 1px 4px oklch(0.22 0.07 242 / 0.05)",
+        "card-hover":
+          "0 12px 40px -8px oklch(0.22 0.07 242 / 0.18), 0 4px 12px oklch(0.22 0.07 242 / 0.08)",
+        navy: "0 8px 32px oklch(0.14 0.055 244 / 0.28)",
+        teal: "0 4px 20px oklch(0.62 0.14 195 / 0.30)",
+        gold: "0 4px 16px oklch(0.74 0.13 68 / 0.28)",
       },
       keyframes: {
         "accordion-down": {
@@ -112,12 +119,22 @@ export default {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "0.6" },
+          "50%": { opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-up": "fade-up 0.6s ease-out forwards",
         "fade-in": "fade-in 0.5s ease-out forwards",
+        float: "float 4s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
       },
     },
   },

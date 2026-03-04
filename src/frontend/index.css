@@ -22,65 +22,67 @@
 /* ─── Design tokens ──────────────────────────────────────── */
 @layer base {
   :root {
-    --radius: 0.5rem;
+    --radius: 0.625rem;
 
-    /* Navy blue foundation */
-    --background: 0.98 0.004 240;
-    --foreground: 0.16 0.025 248;
+    /* Light mode — clean clinical white */
+    --background: 0.985 0.003 220;
+    --foreground: 0.15 0.04 240;
 
     --card: 1 0 0;
-    --card-foreground: 0.16 0.025 248;
+    --card-foreground: 0.15 0.04 240;
 
     --popover: 1 0 0;
-    --popover-foreground: 0.16 0.025 248;
+    --popover-foreground: 0.15 0.04 240;
 
     /* Deep navy primary */
-    --primary: 0.28 0.08 248;
+    --primary: 0.24 0.075 242;
     --primary-foreground: 0.98 0 0;
 
     /* Light steel secondary */
-    --secondary: 0.94 0.012 240;
-    --secondary-foreground: 0.28 0.08 248;
+    --secondary: 0.94 0.012 230;
+    --secondary-foreground: 0.24 0.075 242;
 
-    --muted: 0.94 0.008 240;
-    --muted-foreground: 0.52 0.025 248;
+    --muted: 0.93 0.008 230;
+    --muted-foreground: 0.50 0.028 242;
 
-    /* Gold accent */
-    --accent: 0.72 0.14 68;
-    --accent-foreground: 0.14 0.02 248;
+    /* Teal accent */
+    --accent: 0.62 0.14 195;
+    --accent-foreground: 0.98 0 0;
 
     --destructive: 0.577 0.245 27.325;
     --destructive-foreground: 0.985 0 0;
 
-    --border: 0.88 0.015 240;
-    --input: 0.88 0.015 240;
-    --ring: 0.45 0.08 248;
+    --border: 0.88 0.012 230;
+    --input: 0.88 0.012 230;
+    --ring: 0.50 0.10 242;
 
     /* Chart colors */
-    --chart-1: 0.5 0.18 248;
-    --chart-2: 0.62 0.14 68;
-    --chart-3: 0.48 0.12 160;
-    --chart-4: 0.7 0.15 85;
-    --chart-5: 0.6 0.2 28;
+    --chart-1: 0.48 0.15 242;
+    --chart-2: 0.62 0.14 195;
+    --chart-3: 0.58 0.12 155;
+    --chart-4: 0.70 0.13 68;
+    --chart-5: 0.60 0.20 28;
 
     /* Sidebar */
-    --sidebar: 0.17 0.045 248;
-    --sidebar-foreground: 0.92 0.01 240;
-    --sidebar-primary: 0.72 0.14 68;
-    --sidebar-primary-foreground: 0.14 0.02 248;
-    --sidebar-accent: 0.26 0.06 248;
-    --sidebar-accent-foreground: 0.92 0.01 240;
-    --sidebar-border: 0.28 0.06 248;
-    --sidebar-ring: 0.45 0.08 248;
+    --sidebar: 0.17 0.05 242;
+    --sidebar-foreground: 0.92 0.01 230;
+    --sidebar-primary: 0.62 0.14 195;
+    --sidebar-primary-foreground: 0.14 0.02 242;
+    --sidebar-accent: 0.26 0.06 242;
+    --sidebar-accent-foreground: 0.92 0.01 230;
+    --sidebar-border: 0.28 0.06 242;
+    --sidebar-ring: 0.45 0.08 242;
 
     /* Custom brand tokens */
-    --navy: 0.2 0.065 248;
-    --navy-dark: 0.14 0.05 248;
-    --navy-light: 0.32 0.07 248;
-    --gold: 0.72 0.14 68;
-    --gold-light: 0.82 0.1 72;
-    --teal: 0.58 0.12 196;
-    --hero-overlay: 0.16 0.045 248;
+    --navy: 0.22 0.07 242;
+    --navy-dark: 0.14 0.055 244;
+    --navy-light: 0.30 0.072 240;
+    --teal: 0.62 0.14 195;
+    --teal-light: 0.74 0.11 195;
+    --teal-dark: 0.48 0.16 195;
+    --gold: 0.74 0.13 68;
+    --gold-light: 0.84 0.09 70;
+    --success: 0.65 0.14 148;
   }
 
   * {
@@ -89,11 +91,13 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {
     @apply bg-background text-foreground font-body;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -110,29 +114,57 @@
   .bg-navy {
     background-color: oklch(var(--navy));
   }
-
   .bg-navy-dark {
     background-color: oklch(var(--navy-dark));
   }
-
+  .bg-navy-light {
+    background-color: oklch(var(--navy-light));
+  }
+  .bg-teal {
+    background-color: oklch(var(--teal));
+  }
+  .bg-teal-light {
+    background-color: oklch(var(--teal-light));
+  }
   .bg-gold {
     background-color: oklch(var(--gold));
-  }
-
-  .text-gold {
-    color: oklch(var(--gold));
   }
 
   .text-navy {
     color: oklch(var(--navy));
   }
+  .text-navy-dark {
+    color: oklch(var(--navy-dark));
+  }
+  .text-teal {
+    color: oklch(var(--teal));
+  }
+  .text-teal-dark {
+    color: oklch(var(--teal-dark));
+  }
+  .text-gold {
+    color: oklch(var(--gold));
+  }
 
+  .border-teal {
+    border-color: oklch(var(--teal));
+  }
   .border-gold {
     border-color: oklch(var(--gold));
   }
+  .border-navy {
+    border-color: oklch(var(--navy));
+  }
 
-  .gradient-navy {
-    background: linear-gradient(135deg, oklch(var(--navy-dark)), oklch(var(--navy-light)));
+  /* Noise grain overlay */
+  .grain-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
   }
 
   .section-padding {
